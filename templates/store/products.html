@@ -1,0 +1,65 @@
+
+{% extends 'store/layout/main.html'%}
+{% block content %} 
+
+
+<div class = "py-3 bg-primary">
+    <div class ="container">
+        <a  class = "text-white" href="{% url 'home' %}"> Home / </a>
+        <a  class = "text-white" href = "{% url 'Collections'%}"> Collections/ </a>
+        <a  class = "text-white" href = "{% url 'CollectionsView' category.slug %}"> {{category.title}} </a>
+        
+       
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{category.title}}</h1>
+            <hr>
+            <div class="row">
+            {% for item in products %}
+                <div class="col-md-3">
+                    <div class="card">
+                        <a href="{% url 'productview' item.category.slug item.slug %}">
+                            <div class="card-body">
+                                <div class="category-image">
+                                    <img class="card-img-top" src="{{item.img.url}}" alt="Card image cap">
+                                </div>
+                                <h4>{{item.title}}</h4>
+                                <span class ="float-start">  <label class="fw-bold">Price :{{item.price |stringformat:'d' }}</span>
+                                
+                                <span class ="float-end"> <label class="fw-bold">Stock :  {{item.stock |stringformat:'d' }}</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% comment %} <div class ="container">
+    <h1>{{category.title}}</h1>
+    {% for item in products%}
+    <div class ="row">
+            <div class="card" style="width:400px">
+                <a href="{% url 'productview' item.category.slug item.slug%}">
+                 <img class="card-img-top" src="{{item.img.url}}" alt="Card image cap">
+                 <div class="card-body">
+                  <h4>{{item.title}}</h4>
+                  <span class ="float-start">{{item.price }}</span>
+                  <span class ="float-end">{{item.stock }}</span>
+                 </div>
+                </a>
+             </div>
+  {%  endfor %}
+        
+    </div>
+</div> {% endcomment %}
+{% endblock %}
+
