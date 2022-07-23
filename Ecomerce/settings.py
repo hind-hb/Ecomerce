@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-$tvin2i=v)uog3bu*4xc@63r(lz8q4b^t9bht5ue7kc_9&@r#r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0','localhost','*']
 
 
 # Application definition
@@ -76,14 +76,21 @@ WSGI_APPLICATION = 'Ecomerce.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
+import psycopg2
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'postgres',
+    #     "USER": 'postgres',
+    #     "PASSWORD": 'postgres',
+    #     "HOST": "db",
+    #     "PORT":5432
+    # }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -142,3 +149,8 @@ STATICFILES_DIRS  = [
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+     'DEFAULT_PREMISSIN_CLASSES': [
+     'rest_framework.premissions.IsAuthenticated'],
+}

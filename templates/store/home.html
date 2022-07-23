@@ -14,7 +14,7 @@
             {% for item in product %}
                 <div class="col-md-4">
                     <div class="card">
-                        <a href = "{% url 'CollectionsView' item.slug %}">
+                        <a href="{% url 'productview' item.category.slug item.slug %}">
                         <div class="card-body">
                             <div class="category-image">
                                 <img class="card-img-top w-100" src="{{item.img.url}}" alt="Card image cap"/ >
