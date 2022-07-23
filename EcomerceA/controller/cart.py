@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render , redirect
 from django.http.response import JsonResponse
 from EcomerceA.models import Product , Cart
+from django.contrib.auth.decorators import login_required
 
 def addtocart(request):
     if request.method == 'POST':
@@ -19,7 +20,6 @@ def addtocart(request):
                         return JsonResponse({'status': "product added successfully"})
                     else:
                         return JsonResponse({'status': "Only"+str(product_check.quantity) + "quantity available"})
-                        
 
 
             else:
@@ -27,7 +27,7 @@ def addtocart(request):
         else:
              return JsonResponse({'status':"Login to continue"})
     return redirect('/')
-
+@login_required(login_url='loginpage')
 def viewcart(request):
     cart=Cart.objects.filter(user=request.user)
     context ={'cart':cart}
