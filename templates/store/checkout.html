@@ -9,73 +9,74 @@
     </div>
 </div>
 <div class="container mt-4">
-   
+    <form action="{% url 'placeorder' %}" method="POST">
+        {% csrf_token %}
         <div class="row">
             <div class="col-md-6 ">
-                <div class="card shadow checkoutform">
+                <div class="card shadow ">
                     <div class="card-body">
 
                         <h6>Basic Details</h6>
                         <hr>
-                        <div class="row">
+                        <div class="row  checkoutform">
                             <div class="col-md-6">
 
 
                                 <label for="">First Name</label>
                                 <input type="text" required class="form-control" 
-                                    name="fname" placeholder="Enter first name">
+                                value="{{request.user.first_name}}"  name="fname" placeholder="Enter first name">
                             </div>
                             <div class="col-md-6">
 
 
                                 <label for="">Last Name</label>
                                 <input type="text" required class="form-control" 
-                                    name="lname" placeholder="Enter last name">
+                                   value="{{request.user.last_name}}" name="lname" placeholder="Enter last name">
                             </div>
                             <div class="col-md-6 mt-2">
 
                                 <label for="">Email</label>
                                 <input type="email" required class="form-control" 
-                                    name="email" placeholder="Enter Email">
+                                  value="{{request.user.email}}"  name="email" placeholder="Enter Email">
                             </div>
 
                             <div class="col-md-6 mt-2">
 
                                 <label for="">Phone</label>
                                 <input type="text" required class="form-control" 
-                                    name="phone" placeholder="Enter Phone">
+                                   value="{{userprofile.phone}}" name="phone" placeholder="Enter Phone">
                             </div>
 
                             <div class="col-md-12 mt-2">
 
                                 <label for="">Address</label>
                                 <textarea class="form-control" required name="address"
-                                    placeholder="Enter your Address"> </textarea>
+                                value="{{userprofile.address}}"   placeholder="Enter your Address"> </textarea>
 
                             </div>
                             <div class="col-md-6 mt-2">
 
                                 <label for="">City</label>
                                 <input type="text" required class="form-control"
-                                    name="city" placeholder="Enter City">
+                                value="{{userprofile.city}}" name="city" placeholder="Enter City">
                             </div>
                             <div class="col-md-6 mt-2">
 
                                 <label for="">State</label>
                                 <input type="text" required class="form-control" 
-                                    name="state" placeholder="Enter State">
+                                value="{{userprofile.state}}" name="state" placeholder="Enter State">
                             </div>
                             <div class="col-md-6 mt-2">
 
                                 <label for="">Country</label>
                                 <input type="text" required class="form-control" 
-                                    name="country" placeholder="Enter Country">
+                                value="{{userprofile.country}}"  name="country" placeholder="Enter Country">
                             </div>
                             <div class="col-md-6 mt-2">
 
                                 <label for="">Pin Code</label>
                                 <input type="text" required class="form-control" 
-                                    name="pincode" placeholder="Enter Pin Code">
+                                value="{{userprofile.pincode}}"  name="pincode" placeholder="Enter Pin Code">
                             </div>
                         </div>
                     </div>
@@ -119,6 +120,7 @@
 
                             <button type="submit" class="btn btn-success w-100 "> COD | Place Order</button>
                             <div id="paypal-button-container" class="mt-2"></div>
+                            
 
                         </div>
 
@@ -145,3 +147,117 @@
 
 
 
+
+
+{% block scripts %}
+
+<script
+    src="https://www.paypal.com/sdk/js?client-id=AQNjASXCfw7Od0-SAf8n37VH13-twYGoUsTAzBScstf2VUvtcY1R2Mm-9NtBZynO5m493zFwVnE-awMb&currency=USD"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    paypal.Buttons({
+        style: {
+            layout: 'vertical',
+            shape: 'pill',
+            color: 'blue'
+
+
+        },
+        onClick: function (data, actions) {
+            var fname = $("[name='fname']").val();
+            var lname = $("[name='lname']").val();
+            var email = $("[name='email']").val();
+            var phone = $("[name='phone']").val();
+            var address = $("[name='address']").val();
+            var city = $("[name='city']").val();
+            var state = $("[name='state']").val();
+            var country = $("[name='country']").val();
+            var pincode = $("[name='pincode']").val();
+            var token = $("[name='csrfmiddlewaretoken']").val();
+
+            if (fname == "" || lname == "" || email == "" || phone == "" || address == "" || city == "" || state == "" || country == "" || pincode == "") {
+                swal("Alert!", "All Fields are mandatory!", "error");
+                return false;
+
+            } else {
+                return true;
+
+            }
+
+
+        },
+        // Sets up the transaction when a payment button is clicked
+        createOrder: (data, actions) => {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '{{ total_price }}' // Can also reference a variable or function
+                    }
+                }]
+            });
+        },
+        // Finalize the transaction after payer approval
+        onApprove: (data, actions) => {
+            return actions.order.capture().then(function (orderData) {
+                
+                var fname = $("[name='fname']").val();
+                var lname = $("[name='lname']").val();
+                var email = $("[name='email']").val();
+                var phone = $("[name='phone']").val();
+                var address = $("[name='address']").val();
+                var city = $("[name='city']").val();
+                var state = $("[name='state']").val();
+                var country = $("[name='country']").val();
+                var pincode = $("[name='pincode']").val();
+                var token = $("[name='csrfmiddlewaretoken']").val();
+
+                // Successful capture! For dev/demo purposes:
+                //console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                const transaction = orderData.purchase_units[0].payments.captures[0];
+                //alert(orderData.id);
+                // When ready to go live, remove the alert and show a success message within this page. For example:
+                // const element = document.getElementById('paypal-button-container');
+                // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                // Or go to another URL:  actions.redirect('thank_you.html');
+                data = {
+                    "fname": fname,
+                    "lname": lname,
+                    "email": email,
+                    "phone": phone,
+                    "address": address,
+                    "city": city,
+                    "state": state,
+                    "country": country,
+                    "pincode": pincode,
+                    "payment_mode": "Paid by PayPal",
+                    "payment_id": orderData.id,
+                    csrfmiddlewaretoken: token
+
+
+                }
+ 
+
+
+
+                $.ajax({
+                    method: "POST",
+                    url: "/place-order",
+                    data: data,
+                    success: function (responsec) {
+                       
+                        swal("Congratulations!", responsec.status, "success").then((value) => {
+                            window.location.href='/my-orders'   
+                            })
+                         
+                         
+                      
+
+
+                    }
+                });
+                
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+{% endblock scripts %}
