@@ -18,7 +18,7 @@ from django.urls import path , include
 from EcomerceA.views import ProductListView  ,CollectionsView ,productview ,home , Collections
 from django.conf import settings
 from django.conf.urls.static import static
-from EcomerceA.controller import authview  , cart ,wishlist ,checkout
+from EcomerceA.controller import authview  , cart ,wishlist ,checkout , order
 
 
 urlpatterns = [
@@ -46,6 +46,8 @@ urlpatterns = [
 
      path('checkout',checkout.index,name="checkout"),
      path('place-order', checkout.placeorder,name="placeorder"),
+     path('my-orders',order.index,name='myorders'),
+     path('view-orders/<str:tracking_no>',order.view,name='overview')
 
 ]
 
