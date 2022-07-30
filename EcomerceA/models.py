@@ -18,6 +18,7 @@ class Category (models.Model):
     slug=models.CharField(max_length=150,null=False,blank=False)
     title = models.CharField(max_length=255)
     img = models.ImageField(upload_to=get_file_path , null=True , blank = True)
+    trending=models.BooleanField(default=False,help_text="0 = default, 1 = Hidden")
     # status = models.BooleanField(default=False,help_text="0-default,1=Hidden")
     class Meta:
         verbose_name_plural = 'Categories'
@@ -34,6 +35,7 @@ class Product(models.Model):
     price = models.IntegerField()
     stock = models.IntegerField()
     description = models.TextField()
+    trending=models.BooleanField(default=False,help_text="0 = default, 1 = Hidden")
     # img = models.ImageField(upload_to=get_file_path,height_field=None,width_field=None,max_length=None)
     img = models.ImageField(upload_to=get_file_path , null=True , blank = True)
     sellerInfo = models.CharField(max_length=255)
