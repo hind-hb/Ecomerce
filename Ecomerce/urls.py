@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path , include
-from EcomerceA.views import ProductListView  ,CollectionsView ,productview ,home , Collections
+from EcomerceA.views import ProductListView  ,CollectionsView ,productview ,home , Collections,productlistAjax , searchproduct
 from django.conf import settings
 from django.conf.urls.static import static
 from EcomerceA.controller import authview  , cart ,wishlist ,checkout , order
@@ -33,6 +33,8 @@ urlpatterns = [
     path('register/',authview.register,name="register"),
     path('login/',authview.loginpage,name="loginpage"),
     path('logout/',authview.logoutpage,name="logout"),
+    path('product-list',productlistAjax),
+    path('searchproduct',searchproduct, name="searchproduct"),
 
     path('add-to-cart',cart.addtocart,name='addtocart'),
     path('cart',cart.viewcart,name='cart'),

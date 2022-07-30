@@ -26,6 +26,10 @@
                             <div class="col-md-8">
                                 <h2 class="mb-0">
                                     {{products.title}}
+                                    {% if products.trending %}
+                                    <label style="font-size:16px"
+                                           class="float-end badge bg-danger trending-tag">Trending</label>
+                                     {% endif %}
                                 </h2>
                                 <hr>
                                 <label class="fw-bold">Price:{{products.price |stringformat:'d'}}
