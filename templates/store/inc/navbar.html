@@ -5,8 +5,8 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      {% comment %} <div class="search-bar"> {% endcomment %}
-      <div>
+      <div class="search-bar">
+     
         <form action="{%url 'searchproduct'%}" method="Post" >
             {% csrf_token %}
             <div class="input-group mb-3 ">
@@ -21,7 +21,8 @@
                 </button>
             </div>
         </form>
-    </div>  
+    </div> 
+     
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
@@ -38,10 +39,8 @@
           </li>
           {% if request.user.is_authenticated %}
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{request.user}}
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">   {{request.user}} </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="{% url 'myorders' %}">My Order</a></li>
                 <li> <hr class="dropdown-divider"></li>
                 <li> <a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
@@ -57,11 +56,10 @@
               <a class="nav-link" href="{% url 'register' %}">Register</a>
             </li>
           {% endif %}
-          <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
-          </li>
+          
         </ul>
         
       </div>
     </div>
   </nav>
+
