@@ -19,3 +19,8 @@
     bottom: 05px !important;
     left:03px !important;
 }
+.title-font{
+    text-transform: uppercase;
+    color: #60be74;
+    margin-bottom: 9px;
+}

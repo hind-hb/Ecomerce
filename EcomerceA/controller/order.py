@@ -12,7 +12,7 @@ def index(request):
 
 
 def view(requset,tracking_no):
-    order=Order.objects.filter(tracking_no=tracking_no)
+    order=Order.objects.filter(tracking_no=tracking_no).filter(user=requset.user).first()
     ordersitems = OrderItem.objects.filter(order=order)
     context={'order':order,'ordersitems':ordersitems}
     return render(requset   ,'store/order/view.html',context)
