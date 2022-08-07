@@ -15,7 +15,7 @@ def get_file_path(request,filename):
 
 # Create your models here.
 class Category (models.Model):
-    slug=models.CharField(max_length=150,null=False,blank=False)
+    slug = models.SlugField(max_length=255,unique=True)
     title = models.CharField(max_length=255)
     img = models.ImageField(upload_to=get_file_path , null=True , blank = True)
     trending=models.BooleanField(default=False,help_text="0 = default, 1 = Hidden")
@@ -29,7 +29,7 @@ class Category (models.Model):
 class Product(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name='Food')
-    slug=models.CharField(max_length=150,null=False,blank=False)
+    slug = models.SlugField(max_length=255,unique=True)
     # status = models.BooleanField(default=False,help_text="0-default,1=Hidden")
     title = models.CharField(max_length=255)
     price = models.IntegerField()

@@ -43,8 +43,8 @@ class ProductListView(ListView):
 #     # fields = ['__all__']
 
 def CollectionsView(request , slug):
-    if (Category.objects.filter(slug=slug)):
-        products = Product.objects.filter(slug=slug)
+    if Category.objects.filter(slug=slug).exists():
+        products = Product.objects.filter(category__slug=slug)
         category = Category.objects.filter(slug=slug).first()
         context = {'products' : products,'category':category}
         return render (request , "store/products.html",context)
@@ -53,7 +53,7 @@ def CollectionsView(request , slug):
         return redirect("store/Collections.html")
 
 def productview(request,cat_slug,pro_slug):
-    if (Category.objects.filter(slug = cat_slug)):
+    if Category.objects.filter(slug = cat_slug).exists():
         if (Product.objects.filter(slug = pro_slug)):
             products = Product.objects.filter(slug = pro_slug).first()
             context = {'products':products}
