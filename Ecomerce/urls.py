@@ -35,6 +35,7 @@ urlpatterns = [
     path('logout/',authview.logoutpage,name="logout"),
     path('product-list',productlistAjax),
     path('searchproduct',searchproduct, name="searchproduct"),
+    
 
     path('add-to-cart',cart.addtocart,name='addtocart'),
     path('cart',cart.viewcart,name='cart'),
