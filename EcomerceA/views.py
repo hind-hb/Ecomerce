@@ -8,7 +8,7 @@ from EcomerceA.models import Category , Product
 from rest_framework import generics
 from django.contrib import messages
 from django.http import HttpResponse, JsonResponse
-
+from django.db.models import Q
 
 # Create your views here.
 class ListCategory(generics.ListCreateAPIView):
@@ -94,18 +94,16 @@ def productlistAjax(request):
     productsList = list(products)
     return JsonResponse(productsList,safe=False)
 
+
+
+
 def searchproduct(request):
-    if request.method =='POST':
-        searchedterm = request.POST.get('productsearch')
-        if searchedterm =="":
-            return redirect(request.META.get('HTTP_REFERER'))
-        else:
-            product = Product.objects.filter(title=searchedterm).first()
-            if product:
-                return redirect('Collections/'+product.category.slug+'/'+product.slug)
-                # return redirect('collections/'+product.category.slug+'/'+product.slug+'/'+product.title)
-            else:
-                messages.success(request, "Product not found")
-                return redirect(request.META.get('HTTP_REFERER'))
-    return redirect(request.META.get('HTTP_REFERER'))
+    
+    query = request.POST.get('productsearch')
+    
+    product=Product.objects.filter(title__icontains = query)
+    context={'product':product}
+    return render(request,'store/searchproduct.html',context)
+
+
 
